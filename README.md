@@ -30,5 +30,5 @@ You can read the changelog here: [CHANGELOG.md](/CHANGELOG.md)
 
 ## Attributions
 
-Icons from game-icons.net
+Icons from game-icons.net  
 Bleeding Wound and Pirate grave icon by [Lorc](https://lorcblog.blogspot.com/) under [CC BY 3.0](http://creativecommons.org/licenses/by/3.0/), from http://game-icons.net
