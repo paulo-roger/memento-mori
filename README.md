@@ -14,7 +14,7 @@ The module is set up out-of-the-box for Pathfinder 2e only which use this path f
 ## Settings
 
 ## Dependencies
-- [Token Magic FX](https://foundryvtt.com/packages/tokenmagic)
+System Pathfinder 2E v4.1.3
 
 ## Known Issues
 So far none.
