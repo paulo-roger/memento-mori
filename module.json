@@ -1,37 +1,65 @@
-{
-  "name": "memento-mori",
-  "title": "Memento Mori - Automatically Mark Tokens Dead",
-  "description": "",
-  "version": "This is auto replaced",
-  "library": "false",
-  "manifestPlusVersion": "1.0.0",
-  "minimumCoreVersion": "9",
-  "compatibleCoreVersion": "9",
-  "authors": [
-    {
-      "name": "BadIdeasBureau",
-      "discord": "BadIdeasBureau#7024"
-    }
-  ],
-  "dependencies": [
-
-  ],
-  "conflicts": [
-    
-  ],
-  "esmodules": [
-    "/scripts/module.js"
-  ],
-
-  "languages": [
-    {
-      "lang": "en",
-      "name": "English",
-      "path": "languages/en.json"
-    }
-  ],
-  "url": "This is auto replaced",
-  "manifest": "This is auto replaced",
-  "download": "This is auto replaced"
-
-}
+  {
+    "id": "memento-mori-pf2e",
+    "title": "Memento Mori for Pathfinder 2E",
+    "description": "Automatically Mark Tokens Dead",
+    "version": "This is auto replaced",
+    "library": "false",
+    "manifestPlusVersion": "This is auto replaced",
+    "minimumCoreVersion": "9",
+    "compatibleCoreVersion": "10",
+    "compatibility": {
+      "minimum": "9",
+      "verified": "10"
+    },
+    "authors": [
+      {
+        "name": "winterwulf",
+        "url": "https://github.com/paulo-roger/",
+        "discord": "winterwulf#3118",
+        "ko-fi": "winterwulf",
+        "twitter": "@odragaoverde"
+      }
+    ],
+    "relationships": {
+      "systems": [],
+      "requires": [
+        {
+          "id": "tokenmagic",
+          "type": "module",
+          "compatibility": {}
+        }
+      ]
+    },
+    "esmodules": [
+      "scripts/flying-tokens.js"
+    ],
+    "scripts": [
+      "scripts/lib/lib.js"
+    ],
+    "styles": [
+      "styles/flying-tokens.css"
+    ],
+    "languages": [
+      {
+        "lang": "en",
+        "name": "English",
+        "path": "languages/en.json"
+      }
+    ],
+    "url": "This is auto replaced",
+    "manifest": "This is auto replaced",
+    "download": "This is auto replaced",
+    "license": "https://github.com/paulo-roger/flying-tokens/blob/master/LICENSE",
+    "readme": "https://github.com/paulo-roger/flying-tokens/blob/master/README.md",
+    "bugs": "https://github.com/paulo-roger/flying-tokens/issues",
+    "media": [
+      {
+        "type": "icon",
+        "url": "https://raw.githubusercontent.com/paulo-roger/flying-tokens/master/readme/icon.png"
+      },
+      {
+        "type": "cover",
+        "url": "https://raw.githubusercontent.com/paulo-roger/flying-tokens/master/readme/cover.png"
+      }
+    ]
+  }
