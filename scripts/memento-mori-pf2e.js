@@ -103,8 +103,7 @@ Hooks.once('init', async function () {
 
 async function addEffect(actor) {
     log("Adding Effect to " + actor.name)
-    if(actor.items.find(e => e.flags?.core?.statusId === MODULE_ID)) return //no new effect if one is already present
-    let token = canvas.scene.tokens.find(t => t.actorId === actor.id)
+    if (actor.items.find(e => e.flags?.core?.statusId === MODULE_ID)) return //no new effect if one is already present
     let linked = actor.isToken ? "unlinked" : "linked"
     let name = getSetting(`${linked}StatusName`);
     let img = getSetting(`${linked}StatusIcon`);
@@ -119,23 +118,50 @@ async function addEffect(actor) {
         }
     }
     await actor.createEmbeddedDocuments("Item", [effect])
-    if (getSetting("overlay"))
-        await token.update({overlayEffect: img})
+}
+
+async function updateOverlay(actor) {
+    let linked = actor.isToken ? "unlinked" : "linked"
+    let name = getSetting(`${linked}StatusName`);
+    let img = getSetting(`${linked}StatusIcon`);
+    let npcTokens = []
+    let playerToken = null
+    if (linked === "unlinked") {
+        npcTokens = canvas.scene.tokens.filter(t => t.actorId === actor.id)//&& t.actorData.items.find(i => i.name === name)
+        for (var i = 0; i < npcTokens.length; i++) {
+            if (npcTokens[i].actor.items.find(e => e.name === name) !== undefined)
+                img = npcTokens[i].actor.items.find(e => e.name === name).img
+            else img = ''
+            await npcTokens[i].update({ overlayEffect: img })
+        }
+    } else {
+        if (!actor.isDead) img = ''
+        else img = actor.items.find(e => e.name === name).img
+        playerToken = canvas.scene.tokens.find(t => t.actorId === actor.id)
+        await playerToken.update({ overlayEffect: img })
+    }
+    // console.log(MODULE_ID, " | updated token:", token.id)
+}
+
+async function removeOverlay(effect){
+    let token = null
+    // console.log(MODULE_ID, " | updated effect:", effect)
+    if (effect.actor.isToken) token = effect.actor.token
+    else token = canvas.scene.tokens.find(t => t.actorId === effect.actor.id)
+    await token.update({ overlayEffect: '' })
 }
 
 async function removeEffects(actor) {
     log("Removing Effect From" + actor.name)
-    let token = canvas.scene.tokens.find(t => t.actorId === actor.id)
     let effects = actor.items.filter(e => e.flags?.core?.statusId === MODULE_ID)
     if (effects.length === 0) return
     for (let effect of effects) {
         await effect.delete()
     }
-    await token.update({overlayEffect: ''})
 }
 
 async function updateActor(actor, update) {
-    if(!game.user === game.users.find(u => u.isGM && u.active)) return //first GM only
+    if (!game.user === game.users.find(u => u.isGM && u.active)) return //first GM only
     let hp = getProperty(update, getSetting("hitPath"))
     if (hp === undefined) {
         if (getProperty(actor, getSetting("hitPath")) === undefined) console.warn(`${MODULE_ID} | The setting ${game.i18n.localize("MEMENTO_MORI.Settings.HitPath.Name")} is not a valid property of actor or that property is undefined`)
@@ -158,8 +184,11 @@ async function updateActor(actor, update) {
     }
     if (dead) await addEffect(actor)
     if (!dead && hp) await removeEffects(actor) //only remove if not dead and if hp exists, to avoid false removal
+    if (getSetting("overlay")) await updateOverlay(actor)
 }
 Hooks.on("ready", () => {
     if (game.user.isGM) Hooks.on("updateActor", updateActor)
     log("Ready Hook Fired")
 })
+Hooks.on("deleteItem", removeOverlay)
+
